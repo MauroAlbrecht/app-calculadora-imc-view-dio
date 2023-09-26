@@ -1,7 +1,7 @@
 import '../models/pessoa.dart';
 
 class CalculadoraImcService {
-  static String getMsgResultado(double imc) {
+  String getMsgResultado(double imc) {
     if (imc < 16) {
       return 'Magreza grave';
     } else if (imc >= 16 && imc < 17) {
@@ -22,7 +22,7 @@ class CalculadoraImcService {
     throw Exception('Nenhuma opção de resultado encontrado.');
   }
 
-  static double calculaIMC(Pessoa pessoa) {
+  double calculaIMC(Pessoa pessoa) {
     return double.parse((pessoa.peso / (pessoa.altura * pessoa.altura)).toStringAsFixed(2));
   }
 }
