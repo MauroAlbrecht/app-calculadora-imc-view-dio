@@ -106,18 +106,21 @@ class _CalculaImcPageState extends State<CalculaImcPage> {
                   ),
                 ],
               ),
-              const TextLabelCustom('Resultados'),
+              Row(mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  TextLabelCustom('Resultados'),
+                ],
+              ),
               Expanded(
                   child: resultadoImcService.getResultados.isEmpty
                       ? const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text('Nenhum resultado para exibir, informe os dados e toque em Adicionar'),
+                        padding: EdgeInsets.only(left: 12.0, right: 12),
+                        child: Text('Nenhum resultado para exibir, informe os dados e toque em Adicionar.'),
                       )
                       : ListView.builder(
                           itemCount: resultadoImcService.getResultados.length,
                           itemBuilder: (BuildContext context, int index) {
                             ResultadoImc resultado = resultadoImcService.getResultados[index];
-
                             return ListTile(
                               isThreeLine: true,
                               title: Text(resultado.pessoa.nome), // Acesse o nome da pessoa a partir do objeto ResultadoImc
@@ -181,7 +184,6 @@ class _CalculaImcPageState extends State<CalculaImcPage> {
         return ModalCustom(resulado.pessoa.nome);
       },
     ).then((value) {
-      // Aqui você pode tratar a resposta do modal (valor 'Sim' ou 'Não')
       if (value == 'Sim') {
         resultadoImcService.remover(resulado);
         setState(() {});
