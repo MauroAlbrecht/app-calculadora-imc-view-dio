@@ -1,9 +1,9 @@
 import 'package:app_calculadora_imc_view/models/pessoa.dart';
 
-class ResuladoImc {
+class ResultadoImc {
   Pessoa pessoa;
   double imc;
   String resultado;
 
-  ResuladoImc(this.pessoa,this.imc,this.resultado);
+  ResultadoImc(this.pessoa,this.imc,this.resultado);
 }
