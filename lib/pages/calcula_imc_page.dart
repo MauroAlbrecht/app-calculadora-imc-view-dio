@@ -10,6 +10,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
 
+import '../services/calcula_imc_service.dart';
+
 class CalculaImcPage extends StatefulWidget {
   @override
   _CalculaImcPageState createState() => _CalculaImcPageState();
@@ -20,6 +22,7 @@ class _CalculaImcPageState extends State<CalculaImcPage> {
   final alturaController = MoneyMaskedTextController();
   final pesoController = MoneyMaskedTextController();
   final resultadoImcService = ResultadoImcServide();
+  final calculadoraImcService = CalculadoraImcService();
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -122,8 +125,10 @@ class _CalculaImcPageState extends State<CalculaImcPage> {
                           itemBuilder: (BuildContext context, int index) {
                             ResultadoImc resultado = resultadoImcService.getResultados[index];
                             return ListTile(
+                              dense: false,
                               isThreeLine: true,
-                              title: Text(resultado.pessoa.nome), // Acesse o nome da pessoa a partir do objeto ResultadoImc
+                              contentPadding: const EdgeInsets.symmetric(vertical: 0),
+                              title: Text(resultado.pessoa.nome, style: TextStyle(color: calculadoraImcService.getCorResultado(resultado.imc)),), // Acesse o nome da pessoa a partir do objeto ResultadoImc
                               subtitle: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
