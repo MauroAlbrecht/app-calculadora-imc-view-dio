@@ -17,4 +17,8 @@ class ResultadoImcServide {
 
     _resultados.add(ResultadoImc(pessoa, resultadoImc, msgResultadoImc));
   }
+
+  void remover(ResultadoImc resultadoImc) {
+    _resultados.remove(resultadoImc);
+  }
 }

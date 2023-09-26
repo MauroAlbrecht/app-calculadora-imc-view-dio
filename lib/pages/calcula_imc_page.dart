@@ -1,3 +1,4 @@
+import 'package:app_calculadora_imc_view/custom_components/modal_custom.dart';
 import 'package:app_calculadora_imc_view/custom_components/text_label_custom.dart';
 import 'package:app_calculadora_imc_view/models/pessoa.dart';
 import 'package:app_calculadora_imc_view/models/resulado_imc.dart';
@@ -7,6 +8,7 @@ import 'package:app_calculadora_imc_view/utils/string_utils.dart';
 import 'package:app_calculadora_imc_view/utils/validator_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:extended_masked_text/extended_masked_text.dart';
 
 class CalculaImcPage extends StatefulWidget {
   @override
@@ -15,8 +17,8 @@ class CalculaImcPage extends StatefulWidget {
 
 class _CalculaImcPageState extends State<CalculaImcPage> {
   final nomeController = TextEditingController(text: '');
-  final alturaController = TextEditingController(text: '0,00');
-  final pesoController = TextEditingController(text: '0,00');
+  final alturaController = MoneyMaskedTextController();
+  final pesoController = MoneyMaskedTextController();
   final resultadoImcService = ResultadoImcServide();
   final _formKey = GlobalKey<FormState>();
 
@@ -107,7 +109,7 @@ class _CalculaImcPageState extends State<CalculaImcPage> {
               const TextLabelCustom('Resultados'),
               Expanded(
                   child: resultadoImcService.getResultados.isEmpty
-                      ? Text('Nenhum resultado para exibir, informe os dados e toque em Adicionar')
+                      ? const Text('Nenhum resultado para exibir, informe os dados e toque em Adicionar')
                       : ListView.builder(
                           itemCount: resultadoImcService.getResultados.length,
                           itemBuilder: (BuildContext context, int index) {
@@ -123,7 +125,12 @@ class _CalculaImcPageState extends State<CalculaImcPage> {
                                   Text('Altura: ${resultado.pessoa.altura.toStringAsFixed(2)}, Peso: ${resultado.pessoa.peso.toStringAsFixed(2)}', style: TextStyle(fontSize: 12)),
                                 ],
                               ),
-                              trailing: Icon(Icons.delete_forever_outlined),
+                              trailing: InkWell(
+                                child: const Icon(Icons.delete_forever_outlined),
+                                onTap: () {
+                                  _showCustomModal(context, resultado);
+                                },
+                              ),
                             );
                           },
                         )),
@@ -149,15 +156,30 @@ class _CalculaImcPageState extends State<CalculaImcPage> {
 
       resultadoImcService.add(pessoa);
 
-      limpaCamposNaTela();
+      limparCamposNaTela();
 
       setState(() {});
     }
   }
 
-  void limpaCamposNaTela() {
-     nomeController.text = '';
-     alturaController.text = '0,00';
-     pesoController.text = '0,00';
+  void limparCamposNaTela() {
+    nomeController.text = '';
+    alturaController.text = '0,00';
+    pesoController.text = '0,00';
+  }
+
+  void _showCustomModal(BuildContext context,ResultadoImc resulado) {
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) {
+        return ModalCustom(resulado.pessoa.nome);
+      },
+    ).then((value) {
+      // Aqui você pode tratar a resposta do modal (valor 'Sim' ou 'Não')
+      if (value == 'Sim') {
+         resultadoImcService.remover(resulado);
+         setState(() {});
+      }
+    });
   }
 }
