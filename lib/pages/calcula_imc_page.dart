@@ -44,7 +44,7 @@ class _CalculaImcPageState extends State<CalculaImcPage> {
                   return null;
                 },
               ),
-              const SizedBox(height: 16), // Espaço em branco entre o nome e a altura/peso
+              const SizedBox(height: 16),
               Row(
                 // Linha para a altura e o peso
                 children: [
@@ -67,7 +67,7 @@ class _CalculaImcPageState extends State<CalculaImcPage> {
                       ],
                     ),
                   ),
-                  const SizedBox(width: 16), // Espaço entre a altura e o peso
+                  const SizedBox(width: 16),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,13 +106,13 @@ class _CalculaImcPageState extends State<CalculaImcPage> {
                   ),
                 ],
               ),
-              const Padding(
-                padding: EdgeInsets.only(left: 10.0),
-                child: TextLabelCustom('Resultados'),
-              ),
+              const TextLabelCustom('Resultados'),
               Expanded(
                   child: resultadoImcService.getResultados.isEmpty
-                      ? const Text('Nenhum resultado para exibir, informe os dados e toque em Adicionar')
+                      ? const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text('Nenhum resultado para exibir, informe os dados e toque em Adicionar'),
+                      )
                       : ListView.builder(
                           itemCount: resultadoImcService.getResultados.length,
                           itemBuilder: (BuildContext context, int index) {
@@ -132,7 +132,7 @@ class _CalculaImcPageState extends State<CalculaImcPage> {
                                 ],
                               ),
                               trailing: InkWell(
-                                child: const Icon(Icons.delete_forever_outlined),
+                                child: const Icon(Icons.delete_forever_outlined, color: Colors.red,),
                                 onTap: () {
                                   _showCustomModal(context, resultado);
                                 },
@@ -169,9 +169,9 @@ class _CalculaImcPageState extends State<CalculaImcPage> {
   }
 
   void limparCamposNaTela() {
-    nomeController.text = '';
-    alturaController.text = '0,00';
-    pesoController.text = '0,00';
+    nomeController.clear();
+    alturaController.clear();
+    pesoController.clear();
   }
 
   void _showCustomModal(BuildContext context, ResultadoImc resulado) {

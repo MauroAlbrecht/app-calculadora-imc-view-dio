@@ -4,7 +4,7 @@ import 'package:app_calculadora_imc_view/services/calcula_imc_service.dart';
 
 class ResultadoImcServide {
 
-  var calculadorImcService = CalculadoraImcService();
+  var calculadoraImcService = CalculadoraImcService();
 
   List<ResultadoImc> _resultados = [];
 
@@ -12,8 +12,8 @@ class ResultadoImcServide {
 
   void add(Pessoa pessoa) {
 
-    var resultadoImc = calculadorImcService.calculaIMC(pessoa);
-    var msgResultadoImc = calculadorImcService.getMsgResultado(resultadoImc);
+    var resultadoImc = calculadoraImcService.calculaIMC(pessoa);
+    var msgResultadoImc = calculadoraImcService.getMsgResultado(resultadoImc);
 
     _resultados.add(ResultadoImc(pessoa, resultadoImc, msgResultadoImc));
   }
