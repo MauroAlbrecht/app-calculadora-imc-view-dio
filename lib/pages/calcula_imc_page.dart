@@ -106,7 +106,10 @@ class _CalculaImcPageState extends State<CalculaImcPage> {
                   ),
                 ],
               ),
-              const TextLabelCustom('Resultados'),
+              Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: const TextLabelCustom('Resultados'),
+              ),
               Expanded(
                   child: resultadoImcService.getResultados.isEmpty
                       ? const Text('Nenhum resultado para exibir, informe os dados e toque em Adicionar')
@@ -121,8 +124,11 @@ class _CalculaImcPageState extends State<CalculaImcPage> {
                               subtitle: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  Text('IMC: ${resultado.imc.toStringAsFixed(2)}, Resultado: ${resultado.resultado}'),
-                                  Text('Altura: ${resultado.pessoa.altura.toStringAsFixed(2)}, Peso: ${resultado.pessoa.peso.toStringAsFixed(2)}', style: TextStyle(fontSize: 12)),
+                                  Text(
+                                    'Resultado: ${resultado.resultado}',
+                                    style: const TextStyle(fontWeight: FontWeight.w400),
+                                  ),
+                                  Text('IMC: ${resultado.imc.toStringAsFixed(2)}, Altura: ${resultado.pessoa.altura.toStringAsFixed(2)}, Peso: ${resultado.pessoa.peso.toStringAsFixed(2)}', style: TextStyle(fontSize: 12)),
                                 ],
                               ),
                               trailing: InkWell(
@@ -168,7 +174,7 @@ class _CalculaImcPageState extends State<CalculaImcPage> {
     pesoController.text = '0,00';
   }
 
-  void _showCustomModal(BuildContext context,ResultadoImc resulado) {
+  void _showCustomModal(BuildContext context, ResultadoImc resulado) {
     showDialog<String>(
       context: context,
       builder: (BuildContext context) {
@@ -177,8 +183,8 @@ class _CalculaImcPageState extends State<CalculaImcPage> {
     ).then((value) {
       // Aqui você pode tratar a resposta do modal (valor 'Sim' ou 'Não')
       if (value == 'Sim') {
-         resultadoImcService.remover(resulado);
-         setState(() {});
+        resultadoImcService.remover(resulado);
+        setState(() {});
       }
     });
   }
