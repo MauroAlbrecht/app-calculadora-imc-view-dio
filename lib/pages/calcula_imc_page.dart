@@ -106,9 +106,9 @@ class _CalculaImcPageState extends State<CalculaImcPage> {
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10.0),
-                child: const TextLabelCustom('Resultados'),
+              const Padding(
+                padding: EdgeInsets.only(left: 10.0),
+                child: TextLabelCustom('Resultados'),
               ),
               Expanded(
                   child: resultadoImcService.getResultados.isEmpty
