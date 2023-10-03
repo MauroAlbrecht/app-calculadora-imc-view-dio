@@ -1,6 +1,5 @@
+import 'package:app_calculadora_imc_view/models/resulado_imc_model.dart';
 import 'package:flutter/material.dart';
-
-import '../models/pessoa.dart';
 
 class CalculadoraImcService {
   String getMsgResultado(double imc) {
@@ -45,7 +44,8 @@ class CalculadoraImcService {
     throw Exception('Nenhuma opção de resultado encontrado.');
   }
 
-  double calculaIMC(Pessoa pessoa) {
-    return double.parse((pessoa.peso / (pessoa.altura * pessoa.altura)).toStringAsFixed(2));
+  double calculaIMC(ResultadoImcModel resultadoImcModel) {
+    return double.parse((resultadoImcModel.peso /
+        (resultadoImcModel.altura * resultadoImcModel.altura)).toStringAsFixed(2));
   }
 }

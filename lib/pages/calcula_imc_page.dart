@@ -1,12 +1,10 @@
 import 'package:app_calculadora_imc_view/custom_components/modal_custom.dart';
 import 'package:app_calculadora_imc_view/custom_components/text_label_custom.dart';
-import 'package:app_calculadora_imc_view/models/pessoa.dart';
-import 'package:app_calculadora_imc_view/models/resulado_imc.dart';
+import 'package:app_calculadora_imc_view/models/resulado_imc_model.dart';
 import 'package:app_calculadora_imc_view/services/resultado_imc_service.dart';
 import 'package:app_calculadora_imc_view/utils/double_utils.dart';
 import 'package:app_calculadora_imc_view/utils/string_utils.dart';
 import 'package:app_calculadora_imc_view/utils/validator_utils.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
 
@@ -24,6 +22,12 @@ class _CalculaImcPageState extends State<CalculaImcPage> {
   final resultadoImcService = ResultadoImcServide();
   final calculadoraImcService = CalculadoraImcService();
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    carregarResultados();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,20 +119,20 @@ class _CalculaImcPageState extends State<CalculaImcPage> {
                 ],
               ),
               Expanded(
-                  child: resultadoImcService.getResultados.isEmpty
+                  child: resultadoImcService.resultados.isEmpty
                       ? const Padding(
                         padding: EdgeInsets.only(left: 12.0, right: 12),
                         child: Text('Nenhum resultado para exibir, informe os dados e toque em Adicionar.'),
                       )
                       : ListView.builder(
-                          itemCount: resultadoImcService.getResultados.length,
+                          itemCount: resultadoImcService.resultados.length,
                           itemBuilder: (BuildContext context, int index) {
-                            ResultadoImc resultado = resultadoImcService.getResultados[index];
+                            ResultadoImcModel resultado = resultadoImcService.resultados[index];
                             return ListTile(
                               dense: false,
                               isThreeLine: true,
                               contentPadding: const EdgeInsets.symmetric(vertical: 0),
-                              title: Text(resultado.pessoa.nome, style: TextStyle(color: calculadoraImcService.getCorResultado(resultado.imc)),), // Acesse o nome da pessoa a partir do objeto ResultadoImc
+                              title: Text(resultado.nome, style: TextStyle(color: calculadoraImcService.getCorResultado(resultado.imc)),),
                               subtitle: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
@@ -136,7 +140,8 @@ class _CalculaImcPageState extends State<CalculaImcPage> {
                                     'Resultado: ${resultado.resultado}',
                                     style: const TextStyle(fontWeight: FontWeight.w400),
                                   ),
-                                  Text('IMC: ${resultado.imc.toStringAsFixed(2)}, Altura: ${resultado.pessoa.altura.toStringAsFixed(2)}, Peso: ${resultado.pessoa.peso.toStringAsFixed(2)}', style: TextStyle(fontSize: 12)),
+                                  Text('IMC: ${resultado.imc.toStringAsFixed(2)}, Altura: ${resultado.altura.toStringAsFixed(2)}, Peso: ${resultado.peso.toStringAsFixed(2)}',
+                                      style: const TextStyle(fontSize: 12)),
                                 ],
                               ),
                               trailing: InkWell(
@@ -166,9 +171,9 @@ class _CalculaImcPageState extends State<CalculaImcPage> {
       var altura = DoubleUtils().transformaStringEmNum(alturaController.text);
       var peso = DoubleUtils().transformaStringEmNum(pesoController.text);
 
-      var pessoa = Pessoa(nome, altura, peso);
+      var resultado = ResultadoImcModel(0, nome, altura, peso, 0, '');
 
-      resultadoImcService.add(pessoa);
+      resultadoImcService.add(resultado);
 
       limparCamposNaTela();
 
@@ -182,11 +187,11 @@ class _CalculaImcPageState extends State<CalculaImcPage> {
     pesoController.clear();
   }
 
-  void _showCustomModal(BuildContext context, ResultadoImc resulado) {
+  void _showCustomModal(BuildContext context, ResultadoImcModel resulado) {
     showDialog<String>(
       context: context,
       builder: (BuildContext context) {
-        return ModalCustom(resulado.pessoa.nome);
+        return ModalCustom(resulado.nome);
       },
     ).then((value) {
       if (value == 'Sim') {
@@ -194,5 +199,10 @@ class _CalculaImcPageState extends State<CalculaImcPage> {
         setState(() {});
       }
     });
+  }
+
+  void carregarResultados() async {
+    await resultadoImcService.carregaResultados();
+    setState(() {});
   }
 }

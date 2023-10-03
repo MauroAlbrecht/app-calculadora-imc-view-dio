@@ -1,6 +1,6 @@
 import 'dart:ffi';
 
-import 'package:app_calculadora_imc_view/models/pessoa.dart';
+import 'package:app_calculadora_imc_view/models/pessoa_model.dart';
 import 'package:app_calculadora_imc_view/services/calcula_imc_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -17,28 +17,28 @@ void main() {
   });
 
   test('Calcula IMC corretamente', () {
-    var resultado = CalculadoraImcService().calculaIMC(Pessoa('Mauro', 1.70, 40.0));
+    var resultado = CalculadoraImcService().calculaIMC(PessoaModel('Mauro', 1.70, 40.0));
     expect(resultado, equals(13.84));
 
-    resultado = CalculadoraImcService().calculaIMC(Pessoa('Mauro', 1.70, 45.0));
+    resultado = CalculadoraImcService().calculaIMC(PessoaModel('Mauro', 1.70, 45.0));
     expect(resultado, equals(15.57));
 
-    resultado = CalculadoraImcService().calculaIMC(Pessoa('Mauro', 1.70, 50.0));
+    resultado = CalculadoraImcService().calculaIMC(PessoaModel('Mauro', 1.70, 50.0));
     expect(resultado, equals(17.30));
 
-    resultado = CalculadoraImcService().calculaIMC(Pessoa('Mauro', 1.70, 70.0));
+    resultado = CalculadoraImcService().calculaIMC(PessoaModel('Mauro', 1.70, 70.0));
     expect(resultado, equals(24.22));
 
-    resultado = CalculadoraImcService().calculaIMC(Pessoa('Mauro', 1.70, 80.0));
+    resultado = CalculadoraImcService().calculaIMC(PessoaModel('Mauro', 1.70, 80.0));
     expect(resultado, equals(27.68));
 
-    resultado = CalculadoraImcService().calculaIMC(Pessoa('Mauro', 1.70, 95.0));
+    resultado = CalculadoraImcService().calculaIMC(PessoaModel('Mauro', 1.70, 95.0));
     expect(resultado, equals(32.87));
 
-    resultado = CalculadoraImcService().calculaIMC(Pessoa('Mauro', 1.70, 110.0));
+    resultado = CalculadoraImcService().calculaIMC(PessoaModel('Mauro', 1.70, 110.0));
     expect(resultado, equals(38.06));
 
-    resultado = CalculadoraImcService().calculaIMC(Pessoa('Mauro', 1.70, 130));
+    resultado = CalculadoraImcService().calculaIMC(PessoaModel('Mauro', 1.70, 130));
     expect(resultado, equals(44.98));
   });
 }
